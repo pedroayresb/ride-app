@@ -6,7 +6,14 @@ import {
 } from '../models';
 
 async function saveCustomer(customer: ICustomer) {
-  return CustomerModel.create(customer);
+  const lastId = await CustomerModel.findOne().sort({
+    id: -1,
+  });
+
+  return CustomerModel.create({
+    ...customer,
+    id: lastId ? lastId.id + 1 : 1,
+  });
 }
 
 async function findCustomer(id: number) {

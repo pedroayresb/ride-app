@@ -8,6 +8,10 @@ import {
   IRide,
 } from './ride.interface';
 
+export interface IGoogleLocation {
+  lat: number;
+  lng: number;
+}
 export interface ILocation {
   latitude: number;
   longitude: number;

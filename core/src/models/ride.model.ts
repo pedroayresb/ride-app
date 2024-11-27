@@ -4,12 +4,8 @@ import {
 } from '../interfaces/ride.interface';
 import {
   prop,
-  plugin,
   Ref,
 } from '@typegoose/typegoose';
-import {
-  AutoIncrementSimple,
-} from '@typegoose/auto-increment';
 import {
   Driver,
 } from './driver.model';
@@ -64,11 +60,6 @@ export class RideDriver implements IRideDriver {
  * @param driver - Motorista que realizou a viagem.
  * @param value - Valor da viagem.
  */
-@plugin(AutoIncrementSimple, [
-  {
-    field: 'id',
-  },
-])
 export class Ride implements IRide {
   @prop({
     required: true,

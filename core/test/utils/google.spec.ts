@@ -5,6 +5,9 @@ import {
 import sinon from 'sinon';
 import axios from 'axios';
 import googleFns from '../../src/utils/google';
+import {
+  IGoogleLocation,
+} from '../../src/interfaces/Response.interface';
 
 describe('googleFns', () => {
   afterEach(() => {
@@ -67,13 +70,13 @@ describe('googleFns', () => {
   describe('getRoute', () => {
     it('should return the route for valid origin and destination', async() => {
       const origin = {
-        lat: () => 10,
-        lng: () => 20,
-      } as google.maps.LatLng;
+        lat: 10,
+        lng: 20,
+      } as IGoogleLocation;
       const destination = {
-        lat: () => 20,
-        lng: () => 30,
-      } as google.maps.LatLng;
+        lat: 20,
+        lng: 30,
+      } as IGoogleLocation;
       const mockResponse = {
         data: {
           routes: [
@@ -96,13 +99,13 @@ describe('googleFns', () => {
 
     it('should throw an error if no routes are found', async() => {
       const origin = {
-        lat: () => 10,
-        lng: () => 20,
-      } as google.maps.LatLng;
+        lat: 10,
+        lng: 20,
+      } as IGoogleLocation;
       const destination = {
-        lat: () => 20,
-        lng: () => 30,
-      } as google.maps.LatLng;
+        lat: 20,
+        lng: 30,
+      } as IGoogleLocation;
       const mockResponse = {
         data: {
           routes: [],
@@ -120,13 +123,13 @@ describe('googleFns', () => {
 
     it('should throw an error if the request fails', async() => {
       const origin = {
-        lat: () => 10,
-        lng: () => 20,
-      } as google.maps.LatLng;
+        lat: 10,
+        lng: 20,
+      } as IGoogleLocation;
       const destination = {
-        lat: () => 20,
-        lng: () => 30,
-      } as google.maps.LatLng;
+        lat: 20,
+        lng: 30,
+      } as IGoogleLocation;
       sinon.stub(axios, 'post').rejects(new Error('Request failed'));
 
       try {

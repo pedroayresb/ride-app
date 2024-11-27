@@ -13,13 +13,14 @@ const rideRouter = Router();
 rideRouter
   .post(
     '/estimate',
-    validateBodyAddresses,
     validateBodyCustomerId,
+    validateBodyAddresses,
+    RidesController.estimateRide,
   )
   .patch(
     '/confirm',
-    validateBodyAddresses,
     validateBodyCustomerId,
+    validateBodyAddresses,
     RidesController.confirmRide,
   )
   .get(

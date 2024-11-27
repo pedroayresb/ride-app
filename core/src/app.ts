@@ -5,7 +5,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import error from './middlewares/error.middleware';
 import './database';
-import googleFns from './utils/google';
+import path from 'path';
 
 import type {
   Request,
@@ -17,27 +17,6 @@ import rideRouter from './routes/rides.routes';
 
 const app = express();
 
-async function test() {
-  const origin = await googleFns.getLatLng('Rua Professora Antonia Reginato Viana 780');
-
-  const destination = await googleFns
-    .getLatLng('R. Edvino Antônio Deboni, 225 - cj 23 - Fazendinha, Curitiba - PR, 81070-001');
-
-  console.log(origin, destination);
-
-  if (!origin || !destination) {
-    return;
-  }
-
-  setTimeout(() => {}, 1000);
-
-  const route = await googleFns.getRoute(origin, destination);
-
-  console.log(route);
-}
-
-test();
-
 app
   .use(
     cors({
@@ -46,12 +25,13 @@ app
     }),
   )
   .use(bodyParser.json())
-  .use((req: Request, _: Response, next: NextFunction) => {
+  .use((req: Request, res: Response, next: NextFunction) => {
     console.log(req.url);
     next();
   })
   .use(json())
-  .use(error)
-  .use('/ride', rideRouter);
+  .use('/static', express.static(path.join(path.resolve(path.dirname('')), '/src/assets')))
+  .use('/ride', rideRouter)
+  .use(error);
 
 export default app;

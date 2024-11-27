@@ -82,6 +82,7 @@ async function confirmRide(
       success: true,
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 }

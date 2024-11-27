@@ -21,6 +21,9 @@ import DriversService from '../../src/services/drivers.service';
 import googleFns, {
   RouteReponse,
 } from '../../src/utils/google';
+import {
+  IGoogleLocation,
+} from '../../src/interfaces/Response.interface';
 
 const databaseMock = new DatabaseMock();
 
@@ -161,14 +164,14 @@ describe('Rides Service', () => {
       const destination = 'B';
 
       const originLocation = {
-        lat: () => 10,
-        lng: () => 20,
-      } as google.maps.LatLng;
+        lat: 10,
+        lng: 20,
+      } as IGoogleLocation;
 
       const destinationLocation = {
-        lat: () => 20,
-        lng: () => 30,
-      } as google.maps.LatLng;
+        lat: 20,
+        lng: 30,
+      } as IGoogleLocation;
 
       const route = {
         duration: '20',

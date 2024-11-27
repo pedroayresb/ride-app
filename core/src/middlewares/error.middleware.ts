@@ -13,15 +13,15 @@ import ERRORS from '../errors';
  */
 function error(error: Error, _req: Request, res: Response, _next: NextFunction) {
   if (error.message in ERRORS) {
-    res.status(ERRORS[error.message as keyof typeof ERRORS].code);
-    res.json({
+    res.status(ERRORS[error.message as keyof typeof ERRORS].code).json({
       error_code: error.message,
       message: ERRORS[error.message as keyof typeof ERRORS].message,
     });
+
+    return;
   }
 
-  res.status(ERRORS.INVALID_DATA.code);
-  res.json({
+  res.status(ERRORS.INVALID_DATA.code).json({
     error_code: 'INVALID_DATA',
     message: error.message,
   });

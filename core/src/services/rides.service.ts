@@ -69,12 +69,12 @@ async function estimateRide(
 
   return {
     origin: {
-      latitude: originLocation.lat(),
-      longitude: originLocation.lng(),
+      latitude: originLocation.lat,
+      longitude: originLocation.lng,
     },
     destination: {
-      latitude: destinationLocation.lat(),
-      longitude: destinationLocation.lng(),
+      latitude: destinationLocation.lat,
+      longitude: destinationLocation.lng,
     },
     distance: distanceMeters,
     duration,

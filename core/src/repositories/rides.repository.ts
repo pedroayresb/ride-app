@@ -58,7 +58,14 @@ async function findCustomerRides(customerId: number, driverId?: number) {
 }
 
 async function createRide(ride: Omit<IRide, 'id'>) {
-  return RideModel.create(ride);
+  const lastRide = await RideModel.findOne().sort({
+    id: -1,
+  });
+
+  return RideModel.create({
+    ...ride,
+    id: lastRide ? lastRide.id + 1 : 1,
+  });
 }
 
 const RidesRepository = {

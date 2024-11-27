@@ -1,9 +1,14 @@
 import axios from 'axios';
+import {
+  IGoogleLocation,
+} from '../interfaces/Response.interface';
 
 export type LatLngResponse = {
   address_components: google.maps.GeocoderAddressComponent[];
   formatted_address: string;
-  geometry: google.maps.GeocoderGeometry;
+  geometry: {
+    location: IGoogleLocation;
+  };
   place_id: string;
   types: string[];
 };
@@ -45,7 +50,7 @@ async function getLatLng(address: string) {
   }
 }
 
-async function getRoute(origin: google.maps.LatLng, destination: google.maps.LatLng) {
+async function getRoute(origin: IGoogleLocation, destination: IGoogleLocation) {
   try {
     const url = 'https://routes.googleapis.com/directions/v2:computeRoutes';
 
@@ -56,12 +61,18 @@ async function getRoute(origin: google.maps.LatLng, destination: google.maps.Lat
       {
         origin: {
           location: {
-            latLng: origin,
+            latLng: {
+              latitude: origin.lat,
+              longitude: origin.lng,
+            },
           },
         },
         destination: {
           location: {
-            latLng: destination,
+            latLng: {
+              latitude: destination.lat,
+              longitude: destination.lng,
+            },
           },
         },
         travelMode: 'DRIVE',
@@ -73,6 +84,7 @@ async function getRoute(origin: google.maps.LatLng, destination: google.maps.Lat
         headers: {
           'Content-Type': 'application/json',
           'X-Goog-Api-Key': API_KEY,
+          'X-Goog-FieldMask': 'routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline',
         },
       },
     );
@@ -82,8 +94,9 @@ async function getRoute(origin: google.maps.LatLng, destination: google.maps.Lat
     }
 
     return data.routes[0];
-  } catch (error) {
-    console.error('Error getting route', error);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    console.error('Error getting route', error.response);
     throw new Error('ROUTE_ERROR');
   }
 }
