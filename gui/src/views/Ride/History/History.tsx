@@ -80,10 +80,6 @@ export default function History() {
       if (response) {
         if ((response.data.error_code as keyof typeof ERRORS) === 'NO_RIDES_FOUND') {
           setNoRides(true);
-
-          ERRORS.NO_RIDES_FOUND();
-
-          return;
         }
 
         ERRORS[

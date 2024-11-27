@@ -1,47 +1,29 @@
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
 import path from 'path';
-import DriversMock from '../test/mocks/drivers.mock';
-import CustomerMock from '../test/mocks/customers.mock';
-import RideMock from '../test/mocks/rides.mocks';
+import DriversMock from './test/mocks/drivers.mock';
 import {
-  CustomerModel, DriverModel,
-  RideModel,
-} from './models';
-import {
-  faker,
-} from '@faker-js/faker/locale/pt_BR';
-import {
-  Customer,
-} from './models/customer.model';
+  DriverModel,
+} from './src/models';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function seed() {
+  const hasDefaultDrivers = await DriverModel.find({
+    name: {
+      $in: DriversMock.map(driver => driver.name),
+    },
+  });
+
+  if (
+    hasDefaultDrivers.length &&
+    hasDefaultDrivers.length === DriversMock.length &&
+    hasDefaultDrivers.every(driver => DriversMock.some(defaultDriver => defaultDriver.name === driver.name))
+  ) {
+    console.warn('Drivers already seeded');
+
+    return;
+  }
+
   await DriverModel.insertMany(DriversMock);
-
-  const customers = Array.from({
-    length: faker.number.int({
-      min: 1,
-      max: 10,
-    }),
-  }).map((_, index) => {
-    const customer = new CustomerMock(index + 1);
-
-    return customer;
-  });
-
-  await CustomerModel.insertMany(customers);
-
-  const rides = Array.from({
-    length: faker.number.int({
-      min: 15,
-      max: 100,
-    }),
-  }).map((_, index) => {
-    return new RideMock(index + 1, (faker.helpers.arrayElement(customers) as Customer).id);
-  });
-
-  await RideModel.insertMany(rides);
 }
 
 const dirname = path.resolve(path.dirname(''));
@@ -105,6 +87,7 @@ process.on('SIGINT', () => {
   });
 });
 
-const db = mongoose.connection;
-
-export default db;
+seed().then(() => {
+  console.log('Seed completed');
+  process.exit(0);
+});

@@ -1,0 +1,40 @@
+services:
+  mongo:
+    image: mongo:6.0.13
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: [ "CMD", "echo", "'db.runCommand(/\"ping/\").ok'", "| mongosh", "localhost:27017", "--quiet" ]
+      interval: 10s
+      start_period: 30s
+    volumes:
+      - ./mongo:/data/db
+
+  core:
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "test node ./build/seed.js || true -eq true" ]
+      interval: 30s
+      retries: 0
+      start_period: 5s
+    ports:
+      - 8080:8080
+    build:
+      context: ./core
+      dockerfile: ./dockerfile
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  gui:
+    restart: unless-stopped
+    ports:
+      - 80:80
+    stdin_open: true
+    build:
+      context: ./gui
+      dockerfile: ./dockerfile
+    depends_on:
+      core:
+        condition: service_healthy

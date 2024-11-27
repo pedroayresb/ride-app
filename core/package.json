@@ -3,13 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "npx -y tsc",
     "dev": "nodemon --watch \"./src/**\" --ext \"ts,js\" --exec \"ts-node src/index.ts\"",
-    "db": "mongod",
     "test": "ts-mocha -p tsconfig.json test/**/*.spec.ts",
     "test:coverage": "nyc --reporter=text ts-mocha -p tsconfig.json test/**/*.spec.ts",
-    "dev:seed": "node seed/seed.js",
-    "dev:sockets": "node src/utils/webSocketsUpdater.js",
-    "start": "pm2 start src/server.js --name evolimssocket --no-autorestart --no-daemon"
+    "start": "pm2 start build/src/index.js --name ride-app --no-autorestart --no-daemon"
   },
   "author": "",
   "license": "ISC",
@@ -57,6 +55,7 @@
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.2",
-    "sinon": "^19.0.2"
+    "sinon": "^19.0.2",
+    "pm2": "^5.4.3"
   }
 }
