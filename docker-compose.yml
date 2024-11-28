@@ -14,7 +14,7 @@ services:
   core:
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "test node ./build/seed.js || true -eq true" ]
+      test: ["CMD-SHELL", "test ./seed.sh || true -eq true" ]
       interval: 30s
       retries: 0
       start_period: 5s
@@ -27,7 +27,7 @@ services:
       mongo:
         condition: service_healthy
     environment:
-      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY}
 
   gui:
     restart: unless-stopped
@@ -37,8 +37,8 @@ services:
     build:
       context: ./gui
       dockerfile: ./dockerfile
+      args:
+        GOOGLE_API_KEY: ${GOOGLE_API_KEY}
     depends_on:
       core:
         condition: service_healthy
-    environment:
-      - VITE_GOOGLE_MAPS_API_KEY=${GOOGLE_API_KEY}

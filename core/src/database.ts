@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
 import path from 'path';
+import {
+  DriverModel,
+} from './models';
+import DriversMock from '../test/mocks/drivers.mock';
 
 const dirname = path.resolve(path.dirname(''));
 
@@ -29,6 +33,26 @@ main().catch(err => {
   console.error('Mongoose connection error');
 });
 
+async function seed() {
+  const hasDefaultDrivers = await DriverModel.find({
+    name: {
+      $in: DriversMock.map(driver => driver.name),
+    },
+  });
+
+  if (
+    hasDefaultDrivers.length &&
+    hasDefaultDrivers.length === DriversMock.length &&
+    hasDefaultDrivers.every(driver => DriversMock.some(defaultDriver => defaultDriver.name === driver.name))
+  ) {
+    console.warn('Drivers already seeded');
+
+    return;
+  }
+
+  await DriverModel.insertMany(DriversMock);
+}
+
 /*
  * CONNECTION EVENTS
  * When successfully connected
@@ -36,11 +60,9 @@ main().catch(err => {
 mongoose.connection.on('connected', () => {
   console.warn(`Mongoose default connection open to ${dbURI}`);
 
-  /*
-   * seed().then(() => {
-   *   console.log('Seed completed');
-   * });
-   */
+  seed().then(() => {
+    console.log('Seed completed');
+  });
 });
 
 // If the connection throws an error
