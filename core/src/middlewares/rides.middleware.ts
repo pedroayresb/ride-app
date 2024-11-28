@@ -18,7 +18,7 @@ export function validateBodyCustomerId(
     customer_id,
   } = req.body;
 
-  if (!customer_id) {
+  if (!customer_id || customer_id === '') {
     throw new Error('NO_CUSTOMER_ID');
   }
 
@@ -71,7 +71,7 @@ export function validateParamCustomerId(
     customer_id,
   } = req.params;
 
-  if (!customer_id) {
+  if (!customer_id || customer_id === '') {
     throw new Error('NO_CUSTOMER_ID');
   }
 

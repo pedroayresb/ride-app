@@ -11,7 +11,12 @@ async function findCustomerRides(
   driverId?: number,
 ) {
   if (driverId) {
-    await DriversService.findDriver(driverId);
+    const driver = await DriversService.findDriver(driverId);
+
+    if (!driver) {
+      throw new Error('INVALID_DRIVER');
+    }
+
   }
 
   return RidesRepository.findCustomerRides(customerId, driverId);
@@ -37,6 +42,10 @@ async function createRide(ride: Omit<IRide, 'id'>) {
       password: null,
     }),
   ]);
+
+  if (!driverData) {
+    throw new Error('DRIVER_NOT_FOUND');
+  }
 
   const {
     minimumKm,
