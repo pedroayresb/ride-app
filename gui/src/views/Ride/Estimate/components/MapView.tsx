@@ -24,12 +24,12 @@ export default function MapView() {
 
   return (
     <APIProvider
-      apiKey={'AIzaSyBpjTp6qcj-qYoALxtlrZDKMPQAeKIao38'}
+      apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''}
     >
       <Map
         style={{
-          width: '100%',
-          height: '100%',
+          width: '40vw',
+          height: '80vh',
           borderRadius: '8px',
           boxShadow: '0 0 8px rgba(0, 0, 0, 0.1)',
         }}
