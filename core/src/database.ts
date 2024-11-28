@@ -8,7 +8,7 @@ dotenv.config({
   path: path.join(dirname, '.env'),
 });
 
-const HOST = process.env.HOST || 'localhost:27017';
+const HOST = process.env.HOST || 'mongo:27017';
 const DB_OPTIONS = process.env.DB_OPTIONS || '?directConnection=true';
 
 mongoose.set('strictQuery', false);
