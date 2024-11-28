@@ -165,17 +165,16 @@ export default function Estimate() {
 
                     navigate('/ride/history');
                   } catch (error: unknown) {
-                    console.log(error);
                     const {
                       response,
                     } = error as AxiosError<{
                       error_code: string;
-                      message: string;
+                      error_description: string;
                     }>;
 
                     if (response) {
                       ERRORS[
-                        response.data.error_code as keyof typeof ERRORS
+                        response.data.error_description as keyof typeof ERRORS
                       ]();
 
                       return;

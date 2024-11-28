@@ -31,6 +31,22 @@ const RIDE_ERRORS = {
     message: 'NO_RIDES_FOUND',
     code: 404,
   },
+  INVALID_ADDRESS: {
+    message: 'INVALID_DATA',
+    code: 400,
+  },
+  LATLNG_ERROR: {
+    message: 'INVALID_DATA',
+    code: 400,
+  },
+  NO_ROUTE_FOUND: {
+    message: 'INVALID_DATA',
+    code: 400,
+  },
+  ROUTE_ERROR: {
+    message: 'INVALID_DATA',
+    code: 400,
+  },
 };
 
 export default RIDE_ERRORS;

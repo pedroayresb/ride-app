@@ -76,6 +76,38 @@ export default function Errors() {
       description: 'Ocorreu um erro interno. Tente novamente mais tarde.',
       status: 'error',
     }),
+    INVALID_ADDRESS: useToast({
+      position: 'top-right',
+      duration: 5000,
+      isClosable: true,
+      title: 'E',
+      description: 'Ocorreu um erro interno. Tente novamente mais tarde.',
+      status: 'error',
+    }),
+    LATLNG_ERROR: useToast({
+      position: 'top-right',
+      duration: 5000,
+      isClosable: true,
+      title: 'Erro interno',
+      description: 'Ocorreu um errro com os locais. Preencha novamente.',
+      status: 'error',
+    }),
+    NO_ROUTE_FOUND: useToast({
+      position: 'top-right',
+      duration: 5000,
+      isClosable: true,
+      title: 'Erro interno',
+      description: 'Nenhuma rota encontrada. Tente novamente mais tarde.',
+      status: 'error',
+    }),
+    ROUTE_ERROR: useToast({
+      position: 'top-right',
+      duration: 5000,
+      isClosable: true,
+      title: 'Erro interno',
+      description: 'Ocorreu um erro buscando a sua rota. Tente novamente mais tarde.',
+      status: 'error',
+    }),
   };
 
   return ERRORS;
