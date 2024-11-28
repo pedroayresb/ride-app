@@ -1,12 +1,13 @@
 import {
-  Text,
   Flex,
   Input,
   FormControl,
   FormLabel,
   Button,
+  InputGroup,
+  Icon,
+  InputLeftAddon,
 } from '@chakra-ui/react';
-import Card from '../../../components/Card';
 import {
   Formik,
 } from 'formik';
@@ -24,6 +25,12 @@ import EstimateContext from '../../../contexts/EstimateContext';
 import {
   useNavigate,
 } from 'react-router';
+import {
+  MdPersonSearch,
+  MdPersonPin,
+  MdLocationPin,
+} from 'react-icons/md';
+import '../../../assets/css/ridesHero.css';
 
 const {
   estimateRide,
@@ -48,170 +55,209 @@ export default function Rides() {
   const ERRORS = Errors();
 
   return (
-    <Card
-      p={2}
-      overflowY="scroll"
-      variant="panel"
-    >
-      <Formik
-        initialValues={{
-          origin: '',
-          destination: '',
-          customer_id: '',
+    <>
+      <Flex
+        flexDirection={'row'}
+        p={2}
+        overflowY="scroll"
+        justifyContent="center"
+        alignItems="center"
+        h="80%"
+        mx="auto"
+        my="auto"
+        borderRadius="8px"
+        border="1px solid white"
+        className="rides-hero"
+        position={'absolute'}
+        w={{
+          base: '100%',
+          md: '80%',
         }}
-        onSubmit={async({
-          origin,
-          destination,
-          customer_id,
-        }) => {
-          try {
-            setIsLoading(true);
-            const estimate = await estimateRide({
-              origin,
-              destination,
-              customer_id,
-            });
-
-            setCustomerId(Number(customer_id));
-            setOptions(estimate.options);
-            setOrigin(estimate.origin);
-            setDestination(estimate.destination);
-            setOriginString(origin);
-            setDestinationString(destination);
-            setDistance(estimate.distance);
-            setDuration(estimate.duration);
-            setRouteResponse(estimate.routeResponse);
-
-            navigate('/ride/estimate');
-          } catch (error: unknown) {
-            console.log(error);
-            const {
-              response,
-            } = error as AxiosError<{
-              error_code: string;
-              message: string;
-            }>;
-
-            if (response) {
-              ERRORS[
-                response.data.error_code as keyof typeof ERRORS
-              ]();
-
-              return;
-            }
-
-            ERRORS.INTERNAL_SERVER_ERROR();
-          } finally {
-            setIsLoading(false);
-          }
-        }}
+      />
+      <Flex
+        flexDirection={'row'}
+        zIndex={1}
+        p={2}
+        overflowY="scroll"
+        justifyContent="center"
+        alignItems="center"
+        h="100%"
+        position={'absolute'}
+        marginLeft={'auto'}
+        marginRight={'auto'}
+        left={0}
+        right={0}
+        textAlign={'center'}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-        }) => {
-          return (
-            <form onSubmit={handleSubmit}>
-              <Flex
-                direction="column"
-                background="transparent"
-                borderRadius="8px"
-                minW="25rem"
-                gap={10}
-                p={10}
-                bg={styles.selectMenuColor}
-                boxShadow="0 20px 27px 0 rgb(0 0 0 / 5%)"
-              >
-                <Text
-                  fontSize="xl"
-                  color={styles.textColor}
-                  fontWeight="bold"
-                  textAlign="center"
-                >
-                </Text>
+        <Formik
+          initialValues={{
+            origin: '',
+            destination: '',
+            customer_id: '',
+          }}
+          onSubmit={async({
+            origin,
+            destination,
+            customer_id,
+          }) => {
+            try {
+              setIsLoading(true);
+              const estimate = await estimateRide({
+                origin,
+                destination,
+                customer_id,
+              });
+
+              setCustomerId(Number(customer_id));
+              setOptions(estimate.options);
+              setOrigin(estimate.origin);
+              setDestination(estimate.destination);
+              setOriginString(origin);
+              setDestinationString(destination);
+              setDistance(estimate.distance);
+              setDuration(estimate.duration);
+              setRouteResponse(estimate.routeResponse);
+
+              navigate('/ride/estimate');
+            } catch (error: unknown) {
+              console.log(error);
+              const {
+                response,
+              } = error as AxiosError<{
+                error_code: string;
+                message: string;
+              }>;
+
+              if (response) {
+                ERRORS[
+                  response.data.error_code as keyof typeof ERRORS
+                ]();
+
+                return;
+              }
+
+              ERRORS.INTERNAL_SERVER_ERROR();
+            } finally {
+              setIsLoading(false);
+            }
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+          }) => {
+            return (
+              <form onSubmit={handleSubmit}>
                 <Flex
-                  flexDirection={'column'}
+                  direction="column"
+                  background="transparent"
+                  borderRadius="8px"
+                  w="fit-content"
                   gap={10}
-                  w="100%"
-                  alignItems="center"
-                  justifyContent="center"
+                  p={10}
+                  bg={styles.bgModal}
+                  boxShadow="0 20px 27px 0 rgb(0 0 0 / 5%)"
                 >
-                  <FormControl>
-                    <FormLabel fontSize="sm" fontWeight="normal">
-                      ID do Cliente
-                    </FormLabel>
-                    <Input
-                      fontSize="sm"
-                      borderRadius="8px"
-                      isInvalid={!!(errors.customer_id && touched.customer_id && values.customer_id.length > 0)}
-                      size="lg"
-                      name="customer_id"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.customer_id}
-                    />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel fontSize="sm" fontWeight="normal">
-                      Origem
-                    </FormLabel>
-                    <Input
-                      fontSize="sm"
-                      borderRadius="8px"
-                      type="origin"
-                      size="lg"
-                      isInvalid={!!(errors.origin && touched.origin && values.origin.length > 0)}
-                      name="origin"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.origin}
-                    />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel fontSize="sm" fontWeight="normal">
-                      Destino
-                    </FormLabel>
-                    <Input
-                      fontSize="sm"
-                      borderRadius="8px"
-                      isInvalid={!!(errors.destination && touched.destination && values.destination.length > 0)}
-                      size="lg"
-                      name="destination"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.destination}
-                    />
-                  </FormControl>
-                  <Button
-                    isLoading={isLoading}
-                    type="submit"
-                    bg="teal.300"
-                    fontSize="sm"
-                    color="white"
-                    fontWeight="bold"
+                  <Flex
+                    flexDirection={'column'}
+                    gap={10}
                     w="100%"
-                    h="48px"
-                    data-testid="login-button"
-                    _hover={{
-                      bg: styles.colorStatus,
-                    }}
-                    _active={{
-                      bg: styles.confirmButton,
-                    }}
+                    alignItems="center"
+                    justifyContent="center"
                   >
-                    Confirmar
-                  </Button>
+                    <FormControl>
+                      <FormLabel fontSize="sm" fontWeight="normal">
+                        ID do Cliente
+                      </FormLabel>
+                      <InputGroup>
+                        <InputLeftAddon>
+                          <Icon as={MdPersonSearch} />
+                        </InputLeftAddon>
+                        <Input
+                          fontSize="sm"
+                          borderRadius="8px"
+                          isInvalid={!!(errors.customer_id && touched.customer_id && values.customer_id.length > 0)}
+                          size="md"
+                          name="customer_id"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.customer_id}
+                        />
+                      </InputGroup>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel fontSize="sm" fontWeight="normal">
+                        Origem
+                      </FormLabel>
+                      <InputGroup>
+                        <InputLeftAddon>
+                          <Icon as={MdPersonPin} />
+                        </InputLeftAddon>
+                        <Input
+                          fontSize="sm"
+                          borderRadius="8px"
+                          type="origin"
+                          size="md"
+                          isInvalid={!!(errors.origin && touched.origin && values.origin.length > 0)}
+                          name="origin"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.origin}
+                        />
+                      </InputGroup>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel fontSize="sm" fontWeight="normal">
+                        Destino
+                      </FormLabel>
+                      <InputGroup>
+                        <InputLeftAddon>
+                          <Icon as={MdLocationPin} />
+                        </InputLeftAddon>
+                        <Input
+                          fontSize="sm"
+                          borderRadius="8px"
+                          isInvalid={!!(errors.destination && touched.destination && values.destination.length > 0)}
+                          size="md"
+                          name="destination"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.destination}
+                        />
+                      </InputGroup>
+                    </FormControl>
+                    <Button
+                      isLoading={isLoading}
+                      type="submit"
+                      bg="teal.300"
+                      fontSize="sm"
+                      color="white"
+                      fontWeight="bold"
+                      w="100%"
+                      h="48px"
+                      data-testid="login-button"
+                      _hover={{
+                        bg: styles.colorStatus,
+                      }}
+                      _active={{
+                        bg: styles.confirmButton,
+                      }}
+                    >
+                      Confirmar
+                    </Button>
+                  </Flex>
                 </Flex>
-              </Flex>
-            </form>
-          );
-        }
-        }
-      </Formik>
-    </Card>
+              </form>
+            );
+          }
+          }
+        </Formik>
+      </Flex>
+    </>
+
   );
 }

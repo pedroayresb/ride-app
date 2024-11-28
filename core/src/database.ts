@@ -1,48 +1,6 @@
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
 import path from 'path';
-import DriversMock from '../test/mocks/drivers.mock';
-import CustomerMock from '../test/mocks/customers.mock';
-import RideMock from '../test/mocks/rides.mocks';
-import {
-  CustomerModel, DriverModel,
-  RideModel,
-} from './models';
-import {
-  faker,
-} from '@faker-js/faker/locale/pt_BR';
-import {
-  Customer,
-} from './models/customer.model';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function seed() {
-  await DriverModel.insertMany(DriversMock);
-
-  const customers = Array.from({
-    length: faker.number.int({
-      min: 1,
-      max: 10,
-    }),
-  }).map((_, index) => {
-    const customer = new CustomerMock(index + 1);
-
-    return customer;
-  });
-
-  await CustomerModel.insertMany(customers);
-
-  const rides = Array.from({
-    length: faker.number.int({
-      min: 15,
-      max: 100,
-    }),
-  }).map((_, index) => {
-    return new RideMock(index + 1, (faker.helpers.arrayElement(customers) as Customer).id);
-  });
-
-  await RideModel.insertMany(rides);
-}
 
 const dirname = path.resolve(path.dirname(''));
 
@@ -50,7 +8,7 @@ dotenv.config({
   path: path.join(dirname, '.env'),
 });
 
-const HOST = process.env.HOST || 'mongo:27017';
+const HOST = process.env.HOST || 'localhost:27017';
 const DB_OPTIONS = process.env.DB_OPTIONS || '?directConnection=true';
 
 mongoose.set('strictQuery', false);

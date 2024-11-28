@@ -3,7 +3,6 @@ import {
 } from '@chakra-ui/react';
 import {
   memo,
-  useMemo,
   useContext,
   useEffect,
 } from 'react';
@@ -34,14 +33,6 @@ const Ride = memo(() => {
     if (!customerId) navigate('/ride');
   }, [ customerId, navigate ]);
 
-  const actualRoute = useMemo(() => {
-    const route = window.location.hash;
-    const routeArray = route.split('/');
-    if (!routeArray.includes('Caronada')) routeArray.unshift('Caronada');
-
-    return routeArray;
-  }, []);
-
   return (
     <Flex
       direction="column"
@@ -53,11 +44,9 @@ const Ride = memo(() => {
         direction="row"
         w="100%"
         justifyContent={'space-between'}
-        h="50px"
+        h="min-content"
       >
-        <Navbar
-          brandText={actualRoute}
-        />
+        <Navbar />
         <Configurator />
       </Flex>
       <MainPanel

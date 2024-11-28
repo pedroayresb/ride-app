@@ -1,29 +1,24 @@
 
 // Chakra Imports
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Flex,
+  Icon,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import {
   memo,
 } from 'react';
 import {
-  Link,
+  NavLink,
 } from 'react-router-dom';
+import Styles from '../../../assets/Styles';
+import {
+  MdCarRental,
+} from 'react-icons/md';
 
-const Navbar = memo(({
-  brandText,
-}: {
-  brandText: string[];
-}) => {
+const Navbar = memo(() => {
   const variantChange = '0.2s linear';
-
-  const mainText = useColorModeValue('gray.700', 'gray.200');
-  const secondaryText = useColorModeValue('gray.400', 'gray.200');
+  const styles = Styles();
 
   return (
     <Flex
@@ -37,50 +32,43 @@ const Navbar = memo(({
       transitionTimingFunction="linear, linear, linear, linear"
       display="flex"
       minH="50px"
-      justifyContent={{
-        xl: 'center',
-      }}
+      w="100%"
+      justifyContent={'center'}
       alignItems="center"
     >
-      <Breadcrumb h="fit-content" separator="/" w="100%">
-        {brandText.length > 0 ?
-          brandText.map((prop, _, array) => {
-            return (
-              <BreadcrumbItem
-                key={`breadcrumb-${prop}`}
-                color={mainText}
-                display={{
-                  sm:
-                    array[array.length - 1] !== prop ?
-                      'none' :
-                      'inline-block',
-                  md: 'inline-block',
-                }}
-                h="fit-content"
-              >
-                <BreadcrumbLink
-                  as={brandText[brandText.length - 1] !== prop ?
-                    Link :
-                    Text}
-                  h="fit-content"
-                  color={secondaryText}
-                >
-                  {prop}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-            );
-          }) :
-          <BreadcrumbItem
-            // color={mainText}
-            h="fit-content"
-            display="inline-block"
-          >
-            <BreadcrumbLink href="#">
-              {brandText}
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-        }
-      </Breadcrumb>
+      <Flex as={NavLink} to="/ride">
+        <Icon
+          width={{
+            base: '6rem',
+            md: '6rem',
+          }}
+          height={{
+            base: '6rem',
+            md: '6rem',
+          }}
+          as={MdCarRental}
+          fill={styles.textColor}
+        />
+        <Text
+          fontSize={{
+            base: '2rem',
+            md: '6rem',
+          }}
+          lineHeight={{
+            base: '6rem',
+            md: '6rem',
+          }}
+          fontWeight="bold"
+          ml={2}
+          px={6}
+          borderTop="6px solid"
+          borderColor={styles.textColor}
+          borderBottom="6px solid"
+          color={styles.textColor}
+        >
+          Caronada
+        </Text>
+      </Flex>
     </Flex>
   );
 });

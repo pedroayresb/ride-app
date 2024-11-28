@@ -105,48 +105,73 @@ export default function History() {
   return (
     <Card
       p={2}
+      gap={2}
       h="100%"
       variant="panel"
     >
-      <Text
-        fontSize="xl"
-        fontWeight="bold"
+      <Flex
+        flexDirection={{
+          base: 'column',
+          md: 'row',
+        }}
+        w="100%"
+        gap={2}
+        alignContent={'center'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
       >
-        Histórico
-      </Text>
-      <Box
-        p={2}
-      >
+
         <Text
-          fontSize="lg"
+          fontSize="6xl"
+          fontWeight="bold"
         >
-          Selectione o motorista:
+          Histórico
         </Text>
-        <Select
-          onChange={event => {
-            if (!event || !event.value) {
-              setDriver(null);
+        <Flex
+          flexDirection={'column'}
+          w={
+            {
+              base: '100%',
+              md: '50%',
             }
-            setDriver(event);
-          }}
-          value={driver}
-          isClearable
-          options={[
-            {
-              label: 'Homer Simpson',
-              value: '1',
-            },
-            {
-              label: 'Dominic Toretto',
-              value: '2',
-            },
-            {
-              label: 'James Bond',
-              value: '3',
-            },
-          ]}
-        />
-      </Box>
+          }
+        >
+          <Text
+            fontSize="md"
+          >
+            Selecione o motorista:
+          </Text>
+          <Box
+            w="100%"
+          >
+
+            <Select
+              onChange={event => {
+                if (!event || !event.value) {
+                  setDriver(null);
+                }
+                setDriver(event);
+              }}
+              value={driver}
+              isClearable
+              options={[
+                {
+                  label: 'Homer Simpson',
+                  value: '1',
+                },
+                {
+                  label: 'Dominic Toretto',
+                  value: '2',
+                },
+                {
+                  label: 'James Bond',
+                  value: '3',
+                },
+              ]}
+            />
+          </Box>
+        </Flex>
+      </Flex>
       <SuspenseComponent loading={isLoading} error={
         noRides && error ?
           null :
@@ -178,7 +203,6 @@ export default function History() {
                 return (
                   <Tr
                     key={index}
-                    p={2}
                     gap={2}
                     alignContent={'center'}
                     alignItems={'center'}
@@ -201,9 +225,8 @@ export default function History() {
                     </Td>
                     <Td>
                       <Flex
-                        flexDirection="column"
-                        align={'center'}
-                        justify={'center'}
+                        flexDirection="row"
+                        alignItems="center"
                         gap={2}
                       >
                         <DriverPhoto
@@ -215,46 +238,28 @@ export default function History() {
                           objectFit={'scale-down'}
                           border="1px solid gray"
                         />
-                        <Text>
-                          {ride.driver.name}
-                        </Text>
+                        {ride.driver.name}
                       </Flex>
                     </Td>
                     <Td>
-                      <Text>
-                        {ride.origin}
-                      </Text>
+                      {ride.origin}
                     </Td>
                     <Td>
-                      <Text>
-                        {ride.destination}
-                      </Text>
+                      {ride.destination}
                     </Td>
                     <Td>
-                      <Text
-                        minW="3rem"
-                        textAlign={'center'}
-                      >
-                        {convertSeconds(ride.duration)}
-                      </Text>
+                      {convertSeconds(ride.duration)}
                     </Td>
                     <Td>
-                      <Text>
-                        {dayjs()
-                          .add(Number(ride.duration.split('s')[0]), 'second')
-                          .format('DD/MM/YYYY, HH:mm:ss')}
-                      </Text>
+                      {dayjs()
+                        .add(Number(ride.duration.split('s')[0]), 'second')
+                        .format('DD/MM/YYYY, HH:mm:ss')}
                     </Td>
                     <Td>
-                      <Text
-                        minW="3rem"
-                        textAlign={'center'}
-                      >
-                        {ride.value.toLocaleString('pt-BR', {
-                          style: 'currency',
-                          currency: 'BRL',
-                        })}
-                      </Text>
+                      {ride.value.toLocaleString('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      })}
                     </Td>
                   </Tr>
                 );

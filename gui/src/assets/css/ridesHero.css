@@ -1,0 +1,21 @@
+.rides-hero {
+  /* Add the blur effect */
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  /* Full height */
+  height: 100%;
+
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.5;
+  left: 0;
+  right: 0;
+  text-align: center;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 8px;
+  background-image: image-set(url("../../../public/google_maps_helpful_hero_1.width-1200.format-webp.webp") type("image/webp"))
+}

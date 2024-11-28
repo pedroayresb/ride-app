@@ -26,12 +26,21 @@ export default function Configurator() {
 
   return (
     <Flex
-      flexDirection="row"
+      flexDirection={{
+        base: 'column',
+        md: 'row',
+      }}
       align={'center'}
       justify={'center'}
       gap={2}
     >
-      {customerId && <Text>CLIENTE {customerId}</Text>}
+      {customerId && <Text
+        fontSize={{
+          base: 'sm',
+          md: 'lg',
+        }}
+        fontWeight="bold"
+      >ID {customerId}</Text>}
       <Button onClick={toggleColorMode} data-testid="theme-button">
         {colorMode === 'light' ?
           <MdOutlineLightbulb /> :

@@ -13,7 +13,7 @@ function Styles() {
   const borderColor = useColorModeValue('gray.500', 'gray.600');
   const nameColor = useColorModeValue('gray.700', 'white');
   const selectMenuColor = useColorModeValue('white', '#32415e');
-  const bgModal = useColorModeValue('white', '#1f2733');
+  const bgModal = useColorModeValue('#f7fafc', '#1f2733');
   const bgModal_ = useColorModeValue('#1f2733', 'white');
   const gray200 = useColorModeValue('gray.200', 'gray.600');
   const gray300 = useColorModeValue('gray.300', 'gray.600');

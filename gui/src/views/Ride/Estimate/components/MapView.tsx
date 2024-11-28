@@ -24,12 +24,12 @@ export default function MapView() {
 
   return (
     <APIProvider
-      apiKey={import.meta.env.VITE_API_KEY || ''}
+      apiKey={'AIzaSyBpjTp6qcj-qYoALxtlrZDKMPQAeKIao38'}
     >
       <Map
         style={{
-          width: '40vw',
-          height: '80vh',
+          width: '100%',
+          height: '100%',
           borderRadius: '8px',
           boxShadow: '0 0 8px rgba(0, 0, 0, 0.1)',
         }}

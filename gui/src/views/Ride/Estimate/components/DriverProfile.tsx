@@ -101,7 +101,8 @@ function DriverProfile({
           width="15rem"
         >
           <Text
-            fontSize="sm"
+            fontSize="md"
+            fontWeight={'bold'}
           >
             Mensagem do motorista:
           </Text>
@@ -141,7 +142,9 @@ function DriverProfile({
         w="20rem"
         alignItems="center"
       >
-        <Text>
+        <Text
+          fontWeight={'bold'}
+        >
           Avaliação:
         </Text>
         <Text

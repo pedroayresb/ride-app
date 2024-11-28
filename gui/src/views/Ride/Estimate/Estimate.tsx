@@ -7,6 +7,7 @@ import {
   StatNumber,
   StatHelpText,
   Grid,
+  Box,
 } from '@chakra-ui/react';
 import Card from '../../../components/Card';
 import {
@@ -52,6 +53,7 @@ export default function Estimate() {
 
   return <Card
     p={2}
+    gap={8}
     overflowY="scroll"
     variant="panel"
     alignItems={'space-between'}
@@ -62,22 +64,19 @@ export default function Estimate() {
     }}
 
   >
+    <Box
+      w="100%"
+      p={2}
+    >
+      <MapView />
+    </Box>
     <Flex
       flexDirection="column"
-      align={'center'}
-      justify={'center'}
       gap={2}
       w="100%"
     >
-      <Text
-        fontSize="4xl"
-        color={styles.textColor}
-      >
-        Percurso:
-      </Text>
-      <MapView />
       <Grid
-        templateColumns="repeat(5, auto)"
+        templateColumns="repeat(3, auto)"
         gap={2}
         w="100%"
       >
@@ -113,12 +112,6 @@ export default function Estimate() {
         </Stat>
 
       </Grid>
-    </Flex>
-    <Flex
-      flexDirection="column"
-      gap={2}
-      w="100%"
-    >
       <Text
         fontSize="4xl"
         color={styles.textColor}
@@ -131,7 +124,9 @@ export default function Estimate() {
           base: 'column',
           md: 'row',
         } }
-        gap={2}
+        align={'center'}
+        justify={'center'}
+        gap={16}
       >
 
         {options.map((option, index) => {
@@ -142,6 +137,7 @@ export default function Estimate() {
               align={'center'}
               justify={'center'}
               h="max-content"
+              gap={8}
             >
               <DriverCard
                 key={index}
